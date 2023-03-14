@@ -1,9 +1,8 @@
-import datetime
 from app.models.database import db
 
 
 class User(db.Model):
-    """A user."""
+    """Model definition of a user."""
 
     __tablename__ = "users"
 
@@ -17,8 +16,7 @@ class User(db.Model):
     height = db.Column(db.Integer, nullable=True)
     birthday = db.Column(db.DateTime, nullable=True)
 
-    def __repr__(self):
-        return f"<User user_id={self.user_id} email={self.email}>"
+    workouts = db.relationship("Workout", backref="user", lazy=True)
 
     def __init__(self, email, password, **kwargs):
         self.email = email
@@ -41,3 +39,6 @@ class User(db.Model):
 
         if "birthday" in kwargs:
             self.height = kwargs["birthday"]
+
+    def __repr__(self):
+        return f"<User user_id={self.user_id} email={self.email}>"
